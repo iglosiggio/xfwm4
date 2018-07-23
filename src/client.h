@@ -75,6 +75,7 @@
 #define SEARCH_INCLUDE_SKIP_TASKBAR     (1<<5)
 #define SEARCH_SAME_APPLICATION         (1<<6)
 #define SEARCH_DIFFERENT_APPLICATION    (1<<7)
+#define SEARCH_THIS_MONITOR             (1<<8)
 
 #define NO_UPDATE_FLAG                  0
 #define UPDATE_BUTTON_GRABS             (1<<0)

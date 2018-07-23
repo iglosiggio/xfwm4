@@ -28,6 +28,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xmd.h>
+#include <X11/extensions/Xrandr.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
@@ -258,3 +259,39 @@ get_atom_name (DisplayInfo *display_info, Atom atom)
     return value;
 }
 
+gboolean
+cursorInMonitor(XRRMonitorInfo *monitor, ScreenInfo *screen_info)
+{
+    int monitor_min_x = monitor->x;
+    int monitor_min_y = monitor->y;
+    int monitor_max_x = monitor->x + monitor->width;
+    int monitor_max_y = monitor->y + monitor->height;
+
+    int cursor_x;
+    int cursor_y;
+
+    /* Estos son datos basura que no voy a usar */
+    Window w1, w2;
+    int x2, y2;
+    unsigned int mask;
+
+    XQueryPointer (myScreenGetXDisplay(screen_info), screen_info->xroot, &w1, &w2, &cursor_x, &cursor_y, &x2, &y2, &mask);
+
+    return cursor_x >= monitor_min_x && cursor_x < monitor_max_x
+        && cursor_y >= monitor_min_y && cursor_y < monitor_max_y;
+}
+
+gboolean
+clientInMonitor(XRRMonitorInfo *m, Client *c)
+{
+    int m_x1 = m->x;
+    int m_x2 = m->x + m->width;
+    int m_y1 = m->y;
+    int m_y2 = m->x + m->height;
+    int c_x1 = c->x;
+    int c_x2 = c->x + c->width;
+    int c_y1 = c->y;
+    int c_y2 = c->x + c->height;
+    return m_x1 < c_x2 && m_x2 > c_x1
+        && m_y1 < c_y2 && m_y2 > c_y1;
+}

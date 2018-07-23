@@ -30,6 +30,7 @@
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
 #include <X11/extensions/shape.h>
+#include <X11/extensions/Xrandr.h>
 
 #include <glib.h>
 #include <gdk/gdk.h>
@@ -284,6 +285,29 @@ clientSelectMask (Client * c, Client *other, guint mask, guint type)
     if (!(mask & SEARCH_INCLUDE_SKIP_TASKBAR) && FLAG_TEST (c->flags, CLIENT_FLAG_SKIP_TASKBAR))
     {
         return FALSE;
+    }
+    if ((mask & SEARCH_THIS_MONITOR))
+    {
+        int i;
+        int monitor_count;
+        XRRMonitorInfo *monitors;
+
+        monitors = XRRGetMonitors(clientGetXDisplay(c), c->window, True, &monitor_count);
+
+        for (i = 0; i < monitor_count; i++)
+        {
+            if (cursorInMonitor(monitors + i, c->screen_info) && clientInMonitor(monitors + i, c))
+            {
+                break;
+            }
+        }
+
+        if (i == monitor_count)
+        {
+            return FALSE;
+        }
+
+        XRRFreeMonitors(monitors);
     }
     if (c->type & type)
     {

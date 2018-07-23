@@ -85,6 +85,10 @@ clientGetCycleRange (ScreenInfo *screen_info)
     {
         range |= SEARCH_INCLUDE_ALL_WORKSPACES;
     }
+    if (screen_info->params->cycle_monitor)
+    {
+        range |= SEARCH_THIS_MONITOR;
+    }
 
     return range;
 }
