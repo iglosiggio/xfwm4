@@ -287,11 +287,11 @@ clientInMonitor(XRRMonitorInfo *m, Client *c)
     int m_x1 = m->x;
     int m_x2 = m->x + m->width;
     int m_y1 = m->y;
-    int m_y2 = m->x + m->height;
+    int m_y2 = m->y + m->height;
     int c_x1 = c->x;
     int c_x2 = c->x + c->width;
     int c_y1 = c->y;
-    int c_y2 = c->x + c->height;
+    int c_y2 = c->y + c->height;
     return m_x1 < c_x2 && m_x2 > c_x1
         && m_y1 < c_y2 && m_y2 > c_y1;
 }
