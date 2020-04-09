@@ -270,7 +270,6 @@ cursorInMonitor(XRRMonitorInfo *monitor, ScreenInfo *screen_info)
     int cursor_x;
     int cursor_y;
 
-    /* Estos son datos basura que no voy a usar */
     Window w1, w2;
     int x2, y2;
     unsigned int mask;
