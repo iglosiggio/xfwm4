@@ -302,12 +302,12 @@ clientSelectMask (Client * c, Client *other, guint mask, guint type)
             }
         }
 
+        XRRFreeMonitors(monitors);
+
         if (i == monitor_count)
         {
             return FALSE;
         }
-
-        XRRFreeMonitors(monitors);
     }
     if (c->type & type)
     {
